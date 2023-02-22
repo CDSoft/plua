@@ -25,8 +25,6 @@
 #
 # LUAX
 #     path to the LuaX interpreter (see https://github.com/CDSoft/luax)
-# PLUA
-#     path to the PLua interpreter (see https://github.com/CDSoft/plua)
 # UPP
 #     path to the upp executable (see https://github.com/CDSoft/upp)
 # PANDA
@@ -72,8 +70,6 @@
 #     install all makex tools
 # makex-install-luax
 #     install luax
-# makex-install-plua
-#     install plua
 # makex-install-upp
 #     install upp
 # makex-install-pandoc
@@ -106,9 +102,6 @@ MAKEX_HELP_TARGET_MAX_LEN ?= 20
 
 # LUAX_VERSION is a tag or branch name in the LuaX repository
 LUAX_VERSION ?= master
-
-# PLUA_VERSION is a tag or branch name in the LuaX repository
-PLUA_VERSION ?= master
 
 # UPP_VERSION is a tag or branch name in the upp repository
 UPP_VERSION ?= master
@@ -274,35 +267,6 @@ $(LUAX): | $(MAKEX_CACHE) $(dir $(LUAX))
 
 makex-install: makex-install-luax
 makex-install-luax: $(LUAX)
-
-###########################################################################
-# PLua
-###########################################################################
-
-PLUA_URL = https://github.com/CDSoft/plua
-PLUA = $(MAKEX_INSTALL_PATH)/pandoc/$(PANDOC_VERSION)/plua/$(PLUA_VERSION)/bin/plua
-PLUAC = $(MAKEX_INSTALL_PATH)/pandoc/$(PANDOC_VERSION)/plua/$(PLUA_VERSION)/bin/pluac
-
-export PATH := $(dir $(PLUA)):$(PATH)
-
-$(dir $(PLUA)):
-	@mkdir -p $@
-
-$(PLUA) $(PLUAC) &: | $(PANDOC) $(PANDA) $(MAKEX_CACHE) $(dir $(PLUA))
-	@echo "$(MAKEX_COLOR)[MAKEX]$(NORMAL) $(TEXT_COLOR)install PLua$(NORMAL)"
-	@test -f $(@) \
-	|| \
-	(   (   test -d $(MAKEX_CACHE)/plua \
-	        && ( cd $(MAKEX_CACHE)/plua && git pull ) \
-	        || git clone $(PLUA_URL) $(MAKEX_CACHE)/plua \
-	    ) \
-	    && cd $(MAKEX_CACHE)/plua \
-	    && git checkout $(PLUA_VERSION) \
-	    && make install PREFIX=$(realpath $(dir $@)/..) \
-	)
-
-makex-install: makex-install-plua
-makex-install-plua: $(PLUA) $(PLUAC)
 
 ###########################################################################
 # UPP

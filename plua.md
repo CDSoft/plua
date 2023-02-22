@@ -9,6 +9,11 @@ scripts from Lua scripts. The only requirement is Pandoc 3.
 These scripts can run on any Linux-like environment where Pandoc can run
 (Linux, MacOS, Cygwin, WSL, ...).
 
+**WARNING**: PLua was an experimentation with the Pandoc Lua interpreter. Its
+features have been integrated to [LuaX](https://github.com/CDSoft/luax) and is
+no longer maintained. Please consider using
+[LuaX](https://github.com/CDSoft/luax) instead.
+
 ## Compilation
 
 `plua` is written in Lua (Lua interpreter provided by Pandoc). Just download
